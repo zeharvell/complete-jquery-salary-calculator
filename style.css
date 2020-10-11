@@ -1,0 +1,26 @@
+html,
+body {
+  margin: 0;
+}
+
+.appBar {
+  padding: 25px;
+  background-color: aqua;
+}
+
+.container {
+  padding: 20px;
+}
+
+.btn {
+  margin: 10px;
+}
+
+.simpleTable {
+  border-collapse: collapse;
+}
+
+.simpleTable td {
+  padding: 10px;
+  border: 1px solid #333333;
+}
