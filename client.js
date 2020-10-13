@@ -1,12 +1,13 @@
 console.log('salary');
 
 const employeeList = [];
+let monthlySpend = 0;
 
 $(document).ready(onReady);
 
 function onReady() {
   $('.js-click-add').on('click', clickToAdd);
-  $('.js-cost-list').on('click', '.js-btn-delete', deleteEmployee);
+  $('.js-employee-list').on('click', '.js-btn-delete', deleteEmployee);
 }
 
 function clickToAdd() {
@@ -27,15 +28,6 @@ function clickToAdd() {
   render();
 
   console.log(employeeList);
-}
-
-function deleteEmployee() {
-  const index = $(this).data('index');
-  let monthTotal = 0;
-  employeeList[index].isDeleted = true;
-  $(this).parent().parent().empty('.isDeleted');
-
-  deleteSelectedEmployee();
 }
 
 function render() {
@@ -68,38 +60,40 @@ function render() {
         '<td>' +
         item.salary +
         '</td>' +
-        '<td><button>Delete</button></td>' +
+        '<td><button class="js-btn-delete">Delete</button></td>' +
         '</tr>'
     );
-    deleteSelectedEmployee();
+
     $('.js-total-monthly').text(monthTotal);
   }
+
   totalSalaryCost();
+
+  if (monthlySpend > 20000) {
+    $('.js-total-monthly').addClass('over');
+  } else {
+    $('.js-total-monthly').removeClass('over');
+  }
+}
+
+function deleteEmployee() {
+  $(this).parent().parent().remove();
 }
 
 function totalSalaryCost() {
   let totalSalary = 0;
   for (let i = 0; i < employeeList.length; i++) {
     const item = employeeList[i];
-    totalSalary += parseInt(item.annualSalary) / 12;
+    console.log(item);
+    totalSalary += parseInt(item.Salary) / 12;
   }
   let monthlySalary = totalSalary.toFixed();
   $('.js-total-monthly').text(monthlySalary);
 
-  deleteSelectedEmployee();
-}
-
-function deleteSelectedEmployee() {
-  let monthTotal = 0;
-  for (let i = 0; i < employeeList.length; i++) {
-    const item = employeeList[i];
-    if (item.isDeleted === false) {
-      monthTotal += parseInt(item.annualSalary / 12);
-    }
-  }
   $('.js-total-monthly').text(monthTotal);
   if (monthTotal >= 20000) {
     $('.js-total-monthly').css('background-color', 'red');
   } else if (monthTotal < 20000)
     $('.js-total-monthly').css('background-color', 'grey');
+  monthlySpend = monthlySalary;
 }
